@@ -4,6 +4,8 @@ import MySQLdb as mdb
 import sys
 import time
 import random
+import sptrial
+
 
 namelist=["Tushar Makkar","Tim Poston","Robert Frost","John \
 Kimberly","Jim Mathews","Henry Jacobson","Mark Salvador"]
@@ -14,6 +16,9 @@ subjectlist=["Data Structures and programming","Unix Programming\
  Intelligence","Object Technology","Computer Networks"]
 # Names Of Subjects
 
+flag=0
+# Variable for checking insert 
+
 def trigger(no_trigger):
 	""" 
 	:param no_trigger: Number of triggers
@@ -21,6 +26,9 @@ def trigger(no_trigger):
 	n=no_trigger
 	for i in xrange(n):
 		time.sleep(1)
+		
+		sptrial.flag=0
+		
 		# Causing Delays
 		
 		l=random.randint(1,500)
@@ -43,15 +51,22 @@ def trigger(no_trigger):
 		  # For  checking whether the trigger should be activated or not
 			
 			cur.execute("insert into student (id,name,subject,marks)\
-			 values (l,namelist[l1],subjectlist[l2],l3)")
+			 values (.l. , '.namelist[l1].' , '.subjectlist[l2].' , .l3.)")
 			 # Inserting into table
 		
 		cur.execute("DELIMITER $$\
 		CREATE TRIGGER inserting_trigger\
 		AFTER student INSERT \
-		sys_exec('python /home/ai/trigger/sptrial.py')")
+		sys_exec('python /home/ai/trigger/sptrial.py');$$\
+		DELIMITER;")
 		
-		
+		if sptrial.flag==1:
+			cur.execute("select * from student")
+			data=cur.fetchall()
+			k=len(data)
+			r_server.rpush("students",data[k-1])
+			print data[k-1]
+			sptrial.flag=0
 
 con=None
 
@@ -84,10 +99,12 @@ try:
     r_server.delete("students")
     # Deleting the Reddis list 
     
-    no_Trigger=input("Enter number of triggers you want to have ?")
+    no_trigger=input("Enter number of triggers you want to have ?")
     
     trigger(no_trigger)
     # Calling trigger function
+    
+    print r_server.lrange("students",0,-1)
     
 except mdb.Error,e:
     
