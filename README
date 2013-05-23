@@ -1,0 +1,5 @@
+A demo for pushing on Redis whenever an Insert operation  is done on MySQL
+
+Language Used :
+--------------
+				Python
