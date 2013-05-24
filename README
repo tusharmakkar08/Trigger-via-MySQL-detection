@@ -3,10 +3,12 @@ A demo for pushing on Redis whenever an Insert operation  is done on MySQL
 Language Used :
 --------------
 				Python
+
 Database Used :
 ---------------
 				MySQL
 				Redis
+
 Libraries Used :
 ----------------
 				redis
@@ -14,3 +16,10 @@ Libraries Used :
 				sys
 				time
 				random
+
+How to Run :
+-----------
+				sh automaticscript.sh	
+				# Run Script for creating database and table
+				python trigger.py		
+				# Running python code
