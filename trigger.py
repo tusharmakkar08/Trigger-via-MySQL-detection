@@ -4,7 +4,7 @@ import MySQLdb as mdb
 import sys
 import time
 import random
-import sptrial
+
 
 
 flag=0
@@ -16,9 +16,8 @@ def trigger(no_trigger):
 	"""
 	n=no_trigger
 	for i in xrange(n):
-		time.sleep(1)
 		
-		sptrial.flag=0
+		time.sleep(1)
 		
 		# Causing Delays
 		
@@ -34,7 +33,7 @@ def trigger(no_trigger):
 		
 		if l4==1:
 			print "Inserted Checking"
-		  # For  checking whether the trigger should be activated or not
+		    # For  checking whether the trigger should be activated or not
 			if l==1:
 				cur.execute("insert into student (id,name,subject,marks) values ( 321,'Tushar Makkar','Information Technology' ,10 )")
 			 # Inserting into table
@@ -56,7 +55,7 @@ def trigger(no_trigger):
 		
 		if k!=k1:
 			r_server.rpush("students",data[k-1])
-			print data[k-1]
+			print data
 
 con=None
 
