@@ -3,3 +3,14 @@ A demo for pushing on Redis whenever an Insert operation  is done on MySQL
 Language Used :
 --------------
 				Python
+Database Used :
+---------------
+				MySQL
+				Redis
+Libraries Used :
+----------------
+				redis
+				MySQLdb
+				sys
+				time
+				random

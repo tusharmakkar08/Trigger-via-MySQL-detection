@@ -24,14 +24,14 @@ def trigger(no_trigger):
 		l=random.randint(1,4)
 		# Random Roll no. generation
 		
-		l4=random.randint(0,1)
+		l4=random.randint(0,4)
 		# Randomizing the triggers
 		
 		cur.execute("select * from student")
 		data=cur.fetchall()
 		k1=len(data)
 		
-		if l4==1:
+		if l4<2:
 			print "Inserted Checking"
 		    # For  checking whether the trigger should be activated or not
 			if l==1:
@@ -46,7 +46,8 @@ def trigger(no_trigger):
 			if l==4:
 				cur.execute("insert into student (id,name,subject,marks) values ( 314, 'Koyal Malhotra' , 'Law and Economics' , 8)")
 			 # Inserting into table
-			 
+		else:
+			print "No Insertion"	 
 		cur.execute("select * from student")
 		data=cur.fetchall()
 		k=len(data)
@@ -55,7 +56,8 @@ def trigger(no_trigger):
 		
 		if k!=k1:
 			r_server.rpush("students",data[k-1])
-			print data
+		
+		print r_server.lrange("students",0,-1)
 
 con=None
 
@@ -82,18 +84,19 @@ try:
         r_server.rpush("students",data[i])
 		# Pushing in students list
     
+    print "Initial Queue"
     print r_server.lrange("students",0,-1)
     # Printing from starting to end
-    
-    r_server.delete("students")
-    # Deleting the Reddis list 
+
     
     no_trigger=input("Enter number of triggers you want to have ?")
     
     trigger(no_trigger)
     # Calling trigger function
     
-    print r_server.lrange("students",0,-1)
+    
+    r_server.delete("students")
+    # Deleting the Reddis list 
     
 except mdb.Error,e:
     
