@@ -7,15 +7,6 @@ import random
 import sptrial
 
 
-namelist=["Tushar Makkar","Tim Poston","Robert Frost","John \
-Kimberly","Jim Mathews","Henry Jacobson","Mark Salvador"]
-# Namelist of Students
-
-subjectlist=["Data Structures and programming","Unix Programming\
-","Microprocessors and Interfacing","Theory of Automation","Artificial\
- Intelligence","Object Technology","Computer Networks"]
-# Names Of Subjects
-
 flag=0
 # Variable for checking insert 
 
@@ -31,42 +22,41 @@ def trigger(no_trigger):
 		
 		# Causing Delays
 		
-		l=random.randint(1,500)
+		l=random.randint(1,4)
 		# Random Roll no. generation
-		
-		l1=random.randint(0,6)
-		# Random Name Generation
-		
-		l2=random.randint(0,6)
-		# Random Subject Generation
-		
-		l3=random.randint(1,10)
-		# Random Grade Generation
 		
 		l4=random.randint(0,1)
 		# Randomizing the triggers
 		
+		cur.execute("select * from student")
+		data=cur.fetchall()
+		k1=len(data)
+		
 		if l4==1:
 			print "Inserted Checking"
 		  # For  checking whether the trigger should be activated or not
-			
-			cur.execute("insert into student (id,name,subject,marks)\
-			 values (.l. , '.namelist[l1].' , '.subjectlist[l2].' , .l3.)")
+			if l==1:
+				cur.execute("insert into student (id,name,subject,marks) values ( 321,'Tushar Makkar','Information Technology' ,10 )")
 			 # Inserting into table
+			if l==2:
+				cur.execute("insert into student (id,name,subject,marks) values ( 412, 'Tim Poston' , 'Object technology' , 9)")
+			 # Inserting into table
+			if l==3:
+				cur.execute("insert into student (id,name,subject,marks) values ( 341, 'John Huffington' , 'Humanities' , 7)")
+			 # Inserting into table 
+			if l==4:
+				cur.execute("insert into student (id,name,subject,marks) values ( 314, 'Koyal Malhotra' , 'Law and Economics' , 8)")
+			 # Inserting into table
+			 
+		cur.execute("select * from student")
+		data=cur.fetchall()
+		k=len(data)
 		
-		cur.execute("DELIMITER $$\
-		CREATE TRIGGER inserting_trigger\
-		AFTER student INSERT \
-		sys_exec('python /home/ai/trigger/sptrial.py');$$\
-		DELIMITER;")
+		""" Checking whether the size of database is increased or not """
 		
-		if sptrial.flag==1:
-			cur.execute("select * from student")
-			data=cur.fetchall()
-			k=len(data)
+		if k!=k1:
 			r_server.rpush("students",data[k-1])
 			print data[k-1]
-			sptrial.flag=0
 
 con=None
 
